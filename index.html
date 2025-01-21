@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain to IP Resolver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .results ul {
+            list-style: none;
+            padding: 0;
+        }
+        .results ul li {
+            background: #f1f1f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Domain to IP Resolver</h2>
+        <form id="domainForm">
+            <input type="text" id="domainInput" placeholder="Enter domain (e.g., example.com)" required>
+            <button type="submit">Get IP Addresses</button>
+        </form>
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('domainForm').addEventListener('submit', async function (e) {
+            e.preventDefault(); // Prevent form submission
+            const domain = document.getElementById('domainInput').value;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ''; // Clear previous results
+
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/resolve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ domain }) // Send the domain as JSON
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log(data)
+                const ips = data.resolved_ips || [];
+
+                if (ips.length > 0) {
+                    resultsDiv.innerHTML = '<h3>IP Addresses:</h3><ul>' + ips.map(ip => `<li>${ip}</li>`).join('') + '</ul>';
+                } else {
+                    resultsDiv.innerHTML = '<p>No IP addresses found for this domain.</p>';
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p style="color: red;">Failed to fetch IP addresses: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
