@@ -1,11 +1,11 @@
-# DNS Resolver
+# DnsLookup
 
 This project mimics the core functionalities of a recursive DNS resolver. It includes both a backend server implemented in Python and a frontend interface using HTML and CSS.
 
 ## Features
 
 1. **Domain Name Resolution**: The backend resolves domain names and sends the results to the frontend via a REST API.
-2. **Authoritative DNS Server**: Mimics an authoritative DNS server for specific domains.
+2. **Authoritative DNS Server**: Mimics an authoritative DNS server for specific domains like xyz.com.
 3. **Recursive DNS Server**: Uses Google's DNS server to fetch IPs for other domains.
 4. **Caching**: Caches already fetched resolutions to improve performance.
 5. **Concurrency**: Uses threading to handle multiple users simultaneously.
@@ -16,7 +16,7 @@ This project mimics the core functionalities of a recursive DNS resolver. It inc
 
    ```sh
    git clone <repository-url>
-   cd <repository-directory>
+   cd DnsLookup
    ```
 
 2. Install the required Python packages:
@@ -42,11 +42,11 @@ This project mimics the core functionalities of a recursive DNS resolver. It inc
 ## Files and Directories
 
 - **`api_server.py`**: The main API server using Flask.
-- **[Caching/dnsCache.py](http://_vscodecontentref_/17)**: Implements caching for DNS resolutions.
-- **[DNS_Parser](http://_vscodecontentref_/18)**: Contains modules for parsing DNS packets.
-- **[packetManager](http://_vscodecontentref_/19)**: Contains modules for creating DNS query packets and extracting IPs from responses.
-- **[Server](http://_vscodecontentref_/20)**: Contains the DNS server and client handler modules.
-- **[Zone_Handler](http://_vscodecontentref_/21)**: Handles zone file data.
+- **`Caching/dnsCache.py`**: Implements caching for DNS resolutions.
+- **`DNS_Parser`**: Contains modules for parsing DNS packets.
+- **`packetManager`**: Contains modules for creating DNS query packets and extracting IPs from responses.
+- **`Server`**: Contains the DNS server and client handler modules.
+- **`Zone_Handler`**: Handles zone file data.
 - **`Zones/xyz.com.zone`**: Example zone file.
 - **`index.html`**: Frontend interface for resolving domain names.
 - **`test_dns_generator.py`**: Unit tests for the DNS generator.
